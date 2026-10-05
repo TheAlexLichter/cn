@@ -20,6 +20,8 @@ export default defineConfig({
       ".deepsec/",
     ],
     rules: {
+      "no-var": "error",
+      "prefer-const": "error",
       "no-case-declarations": "error",
       "no-empty": "error",
       "no-fallthrough": "error",
