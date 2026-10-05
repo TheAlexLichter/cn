@@ -33,12 +33,12 @@ jobs:
           node-version: 24
           cache: false
           registry-url: https://registry.npmjs.org
-          run-install: false
+          run-install: |
+            args: ['--frozen-lockfile']
       # trusted publishing needs npm >= 11.5.1 — pinned to the 11 line: npm 12
       # changed `npm info --json` to emit an array, which crashes the pnpm
       # registry probe in @changesets/cli 3.0.1 (pnpm info delegates to npm)
       - run: npm install -g npm@11
-      - run: vp install --frozen-lockfile
       - name: create version PR or publish
         uses: changesets/action@v2
         with:
