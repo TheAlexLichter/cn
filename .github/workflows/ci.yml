@@ -14,15 +14,21 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
+      # Vite+ needs Node 22+, so the toolchain runs on 24 and the matrix
+      # version only runs the suites against the built dist/.
       - uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node }}
+          node-version: 24
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - run: pnpm run lint
       - run: pnpm run format:check
       - run: pnpm run typecheck
       - run: pnpm run build
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+      - run: node --version
       - run: node packages/conformance/tests/correctness.mjs
       - run: node packages/conformance/tests/fuzz.mjs
         env:
